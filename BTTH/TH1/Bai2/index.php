@@ -1,64 +1,44 @@
-<?php include "readFile.php"; ?>
+<?php include "ctrl/read.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Trả lời trắc nghiệm</title>
+    <title>Danh sách câu hỏi</title>
 </head>
 <body>
     <div class="container mt-5">
-    <h2 class="fw-bold text-center">Kiểm tra trắc nghiệm</h2>
+        <h2 class="fw-bold text-center">Danh sách câu hỏi</h2>
         <form action="nopbai.php" method="POST">
-        <?php
-            $c = 0;
-            foreach ($questions as $line) {
-                if (strpos($line, "Câu") === 0) {
-                    if (!empty($current_question)) {
-                        $question = $current_question;
-                        $number++;
-                        if($c === 6){?>
-                        <?php
-                            echo "<div class='card mb-4'>";
-                            echo "<div class='card-header'><strong>{$question[0]}</strong></div>";
-                            echo "<div class='card-body'>";
-                            for ($i = 1; $i <= 4; $i++) {
-                                $answer = substr($question[$i], 0, 1); // A, B, C, D
-                                echo "<div class='form-check'>";
-                                echo "<input class='form-check-input' type='radio' name='question{$number}' value='{$answer}' id='question{$number}{$answer}'>";
-                                echo "<label class='form-check-label' for='question{$number}{$answer}'>{$question[$i]}</label>";
-                                echo "</div>";
-                            }
-                            echo "</div>";
-                            echo "</div>";
-                        ?>
-                        <?php $c=0;}
-                    }
-                    $current_question = [];
-                }
-                $current_question[] = $line;
-                $c++;
-            }
-            if (!empty($current_question)) {
-                $question = $current_question;
-            }
-            echo "<div class='card mb-4'>";
-                            echo "<div class='card-header'><strong>{$question[0]}</strong></div>";
-                            echo "<div class='card-body'>";
-                            for ($i = 1; $i <= 4; $i++) {
-                                $answer = substr($question[$i], 0, 1); // A, B, C, D
-                                echo "<div class='form-check'>";
-                                echo "<input class='form-check-input' type='radio' name='question{$number}' value='{$answer}' id='question{$number}{$answer}'>";
-                                echo "<label class='form-check-label' for='question{$number}{$answer}'>{$question[$i]}</label>";
-                                echo "</div>";
-                            }
-                            echo "</div>";
-                            echo "</div>";
-
-            ?>
-            <div class="d-flex justify-content-center mb-4">
+        <?php foreach ($questions as $index => $question): ?>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong><?= htmlspecialchars($question['question_text']) ?></strong>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question<?= $question['id'] ?>" value="A" id="q<?= $question['id'] ?>a">
+                        <label class="form-check-label" for="q<?= $question['id'] ?>a"><?= htmlspecialchars($question['answer_a']) ?></label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question<?= $question['id'] ?>" value="B" id="q<?= $question['id'] ?>b">
+                        <label class="form-check-label" for="q<?= $question['id'] ?>b"><?= htmlspecialchars($question['answer_b']) ?></label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question<?= $question['id'] ?>" value="C" id="q<?= $question['id'] ?>c">
+                        <label class="form-check-label" for="q<?= $question['id'] ?>c"><?= htmlspecialchars($question['answer_c']) ?></label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question<?= $question['id'] ?>" value="D" id="q<?= $question['id'] ?>d">
+                        <label class="form-check-label" for="q<?= $question['id'] ?>d"><?= htmlspecialchars($question['answer_d']) ?></label>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+            <div class="d-flex justify-content-center mb-4" style="gap: 15px;">
                 <button type="submit" class="btn btn-primary">Nộp bài</button>
+                <a href="create.php" class="btn btn-success">Thay bộ câu hỏi</a>
             </div>
         </form>
     </div>
