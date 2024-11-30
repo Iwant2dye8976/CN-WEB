@@ -1,6 +1,6 @@
 <?php
 // Đường dẫn tới file CSV
-$filename = "C:/xampp/htdocs/TH1-Bai3/students.csv";
+$filename = "./students.csv";
 
 // Mảng chứa dữ liệu sinh viên
 $sinhvien = [];
