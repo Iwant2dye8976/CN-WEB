@@ -47,7 +47,7 @@ class IssueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
     }
@@ -65,7 +65,7 @@ class IssueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'computer_id' => 'required',
@@ -89,8 +89,10 @@ class IssueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        return redirect()->route('issues.index')->with('success', 'Vấn đề đã CƯƠNG !');
+        $issues = Issue::findOrFail($id);
+        $issues->delete();
+        return redirect()->route('issues.index')->with('success', 'Xóa thành công!');
     }
 }
